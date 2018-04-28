@@ -3,19 +3,101 @@
 //------------------------------------------------------------------------------
 #include <QDebug>
 #include <QFile>
+#include <QFontDatabase>
+#include <QPainter>
+#include "font2c.h"
+//------------------------------------------------------------------------------
+#define QPRINT_VAL(__val) {qDebug()<<#__val<<":"<<__val;}
 //------------------------------------------------------------------------------
 MW::MW(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MW)
 {
 	ui->setupUi(this);
+	//TestSketch();
 
-	FT_Library  lib;
-	FT_Face     f;
-	GenGlyph::InitLib(lib,f,"/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif.ttf");
-	ui->QWGlyph->SetFace(f);
-	ui->QWGlyph->SetSize(24);
+	Font2C f2c;
+
+	f2c.SetSymbols(Font2C::TestSymbols());
+	f2c.SetFamily("DejaVu Sans Mono");
+	f2c.SetSize(12);
+	f2c.SaveHenderDefFile();
+	f2c.SaveSourceDefFile();
+	f2c.SaveSourceFile();
+	f2c.SaveHenderFile();
+
+	//qDebug()<<Font2C::TestSymbols();
 }
+//------------------------------------------------------------------------------
+void MW::TestSketch()
+{
+	//Просмотр доступных qt шрифтов
+	QFontDatabase qfd;
+	qDebug()<<qfd.families();
+
+	static QString TestRUS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+
+	foreach (QChar ch, TestRUS) {
+		TestAlg(QChar(ch),50,QString("%1").arg(ch));
+	}
+
+	TestAlg(QChar(L'Ц'),50);
+}
+//------------------------------------------------------------------------------
+void MW::TestAlg(QChar ch,int pointSize,QString file)
+{
+
+	//Выбранный шрифт
+	//моноширинный шрифт приоритет при выборе
+	QFont qf("DejaVu Sans Mono",pointSize);
+	qf.setKerning(false);
+
+	//Если мало доступной ОЗУ для stm32 и хватает только для 2 фрейм буферов
+	//шрифты как битовая маска
+	qf.setStyleStrategy(QFont::NoAntialias);
+
+	qDebug()<<qf;
+	QPRINT_VAL(qf.weight());
+	QPRINT_VAL(qf.rawName());
+	QPRINT_VAL(qf.family());
+
+	QFontMetrics qfm(qf);
+
+	QPRINT_VAL(qfm.ascent());
+	QPRINT_VAL(qfm.descent() );
+	QPRINT_VAL(qfm.height() );
+	QPRINT_VAL(qfm.leading() );
+	QPRINT_VAL(qfm.lineSpacing() );
+	QPRINT_VAL(qfm.minLeftBearing() );
+	QPRINT_VAL(qfm.minRightBearing() );
+	QPRINT_VAL(qfm.maxWidth() );
+	QPRINT_VAL(qfm.xHeight() );
+	QPRINT_VAL(qfm.averageCharWidth() );
+
+
+	QPRINT_VAL(qfm.leftBearing(ch) );
+	QPRINT_VAL(qfm.rightBearing(ch) );
+	QPRINT_VAL(qfm.width(ch));
+	QPRINT_VAL(qfm.underlinePos());
+	QPRINT_VAL(qfm.overlinePos());
+	QPRINT_VAL(qfm.strikeOutPos());
+	QPRINT_VAL(qfm.lineWidth());
+
+	QPixmap map(qfm.width(ch),qfm.height());
+	map.fill();
+
+	QPainter painter;
+	painter.begin(&map);
+	painter.setFont(qf);
+	painter.drawText(0,qfm.height()-qfm.descent(),ch);
+	painter.end();
+
+
+	QImage img = map.toImage();
+	img.save(file + QString(".jpg"));
+
+}
+
 //------------------------------------------------------------------------------
 MW::~MW()
 {
@@ -42,180 +124,18 @@ void MW::on_QPBTest_clicked()
 	bool optsize = true;
 
 	QString Path = "../FT2-Font/";
-
-/*	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(24);
-		gf.SetFontName("DejaVuSerif24");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(18);
-		gf.SetFontName("DejaVuSerif18");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(14);
-		gf.SetFontName("DejaVuSerif14");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(12);
-		gf.SetFontName("DejaVuSerif12");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}*/
-
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(24);
-		gf.SetFontName("DejaVuSansMono24");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(18);
-		gf.SetFontName("DejaVuSansMono18");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(20);
-		gf.SetFontName("DejaVuSansMono20");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(22);
-		gf.SetFontName("DejaVuSansMono22");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(16);
-		gf.SetFontName("DejaVuSansMono16");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(14);
-		gf.SetFontName("DejaVuSansMono14");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(12);
-		gf.SetFontName("DejaVuSansMono12");
-		gf.SetFontFileName("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	/*{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(12);
-		gf.SetFontName("TakaoPGothic12");
-		gf.SetFontFileName("/usr/share/fonts/truetype/takao-gothic/TakaoPGothic.ttf");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}
-
-	{
-		GenFont gf;
-		gf.SetOptSize(optsize);
-		gf.SetFontSize(24);
-		gf.SetFontName("z003034l12");
-		gf.SetFontFileName("/usr/share/fonts/X11/Type1/z003034l.pfb");
-		gf.LoadTestString();
-		gf.GenDefFile();
-		gf.GenFontSourceFile(Path);
-		gf.GenFontHeaderFile(Path);
-	}*/
-
-	QStringList strl;
-	GenFont::GenStructDefFile(strl,optsize);
-	GenFont::SaveFile(Path + "fontdef.h",strl);
-
 }
 //------------------------------------------------------------------------------
 void MW::on_QPBTest2_clicked()
 {
-	ui->QWGlyph->SetCharCode('1');
-	ui->QWGlyph->GlyphToBuffer();
-	ui->QWGlyph->UpdateImage();
+	//ui->QWGlyph->SetCharCode('1');
+	//ui->QWGlyph->GlyphToBuffer();
+	//ui->QWGlyph->UpdateImage();
 
 	QStringList strlist;
-	ui->QWGlyph->GenStructGlyph(strlist);
+	//ui->QWGlyph->GenStructGlyph(strlist);
 
-	qDebug()<<ui->QWGlyph->Info();
+	//qDebug()<<ui->QWGlyph->Info();
 
 	QFile f("file.h");
 	if(!f.open(QIODevice::WriteOnly | QIODevice::Text)){

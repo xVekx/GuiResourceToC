@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>421</width>
-    <height>400</height>
+    <width>482</width>
+    <height>367</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,15 +17,24 @@
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="3" column="2">
-       <widget class="QPushButton" name="QPBTest2">
+      <item row="6" column="1">
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="font">
+         <font>
+          <family>DejaVu Sans</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>Test2</string>
+         <string>All to C</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
-       <spacer name="horizontalSpacer">
+      <item row="5" column="1" colspan="2">
+       <widget class="QLineEdit" name="lineEdit_3"/>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -37,21 +46,7 @@
         </property>
        </spacer>
       </item>
-      <item row="2" column="2">
-       <widget class="QPushButton" name="QPBTest">
-        <property name="text">
-         <string>Test</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="QPBUp">
-        <property name="text">
-         <string>Up</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" rowspan="5">
+      <item row="7" column="1">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -64,35 +59,37 @@
         </property>
        </spacer>
       </item>
-      <item row="4" column="2">
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+      <item row="4" column="1">
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="font">
+         <font>
+          <family>DejaVu Sans</family>
+          <pointsize>12</pointsize>
+         </font>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="QPBDown">
         <property name="text">
-         <string>Down</string>
+         <string>Image to C</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="pushButton">
+        <property name="font">
+         <font>
+          <family>DejaVu Sans</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Font to C</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" rowspan="5">
-       <widget class="GenGlyph" name="QWGlyph" native="true"/>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item row="3" column="1" colspan="2">
+       <widget class="QLineEdit" name="lineEdit_2"/>
       </item>
      </layout>
     </item>
@@ -103,7 +100,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>421</width>
+     <width>482</width>
      <height>28</height>
     </rect>
    </property>
@@ -119,14 +116,6 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>GenGlyph</class>
-   <extends>QWidget</extends>
-   <header>genglyph.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

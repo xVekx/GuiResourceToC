@@ -14,20 +14,17 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mw.cpp \
-    genglyph.cpp \
-    genindex.cpp \
-    genfont.cpp
+    font2c.cpp \
+    font2cindex.cpp \
+    font2cglyph.cpp
 
 HEADERS  += mw.h \
-    genglyph.h \
-    genindex.h \
-    genfont.h
+    font2c.h \
+    font2cindex.h \
+    font2cglyph.h
 
-FORMS    += mw.ui
+FORMS    += mw.ui \
 
-LIBS += -lz -lfreetype
-
-INCLUDEPATH += $$MOC_DIR \
-               /usr/include \
-               /usr/include/freetype2
+RESOURCES += \
+    res.qrc
 

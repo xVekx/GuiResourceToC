@@ -2,7 +2,6 @@
 #define MW_H
 //------------------------------------------------------------------------------
 #include <QMainWindow>
-#include "genfont.h"
 //------------------------------------------------------------------------------
 namespace Ui {
 class MW;
@@ -18,6 +17,8 @@ public:
 	void paintEvent(QPaintEvent *e);
 	void DrawGlyph(const QFont &f, unsigned int gi, QImage &img);
 
+	void TestAlg(QChar ch, int pointSize = -1, QString file= "test");
+	void TestSketch();
 private slots:
 	void on_QPBUp_clicked();
 	void on_QPBDown_clicked();
@@ -26,7 +27,6 @@ private slots:
 
 private:
 	Ui::MW *ui;
-	FT_Face face;
 };
 //------------------------------------------------------------------------------
 #endif // MW_H
