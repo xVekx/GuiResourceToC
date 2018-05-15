@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/src">
         <file>fontdef.c</file>
+        <file>test.json</file>
     </qresource>
 </RCC>

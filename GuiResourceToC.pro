@@ -16,14 +16,19 @@ SOURCES += main.cpp\
         mw.cpp \
     font2c.cpp \
     font2cindex.cpp \
-    font2cglyph.cpp
+    font2cglyph.cpp \
+    fontselect.cpp \
+    testjson.cpp
 
 HEADERS  += mw.h \
     font2c.h \
     font2cindex.h \
-    font2cglyph.h
+    font2cglyph.h \
+    fontselect.h \
+    testjson.h
 
 FORMS    += mw.ui \
+    fontselect.ui
 
 RESOURCES += \
     res.qrc

@@ -2,6 +2,7 @@
 #define MW_H
 //------------------------------------------------------------------------------
 #include <QMainWindow>
+#include "fontselect.h"
 //------------------------------------------------------------------------------
 namespace Ui {
 class MW;
@@ -14,19 +15,21 @@ class MW : public QMainWindow
 public:
 	explicit MW(QWidget *parent = 0);
 	~MW();
-	void paintEvent(QPaintEvent *e);
-	void DrawGlyph(const QFont &f, unsigned int gi, QImage &img);
 
-	void TestAlg(QChar ch, int pointSize = -1, QString file= "test");
-	void TestSketch();
 private slots:
-	void on_QPBUp_clicked();
-	void on_QPBDown_clicked();
-	void on_QPBTest_clicked();
-	void on_QPBTest2_clicked();
+
+	void on_QPBFont2C_clicked();
+	void on_QPBFont2CPath_clicked();
+	void on_QPBImage2C_clicked();
+	void on_QPBAll2C_clicked();
+	void on_QPBImage2CPath_clicked();
+	void on_QPBImage2CSetting_clicked();
+
+	void on_QPBFont2CSetting_clicked();
 
 private:
 	Ui::MW *ui;
+
 };
 //------------------------------------------------------------------------------
 #endif // MW_H

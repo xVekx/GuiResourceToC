@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>482</width>
-    <height>367</height>
+    <width>643</width>
+    <height>396</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,12 +17,35 @@
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="6" column="1">
-       <widget class="QPushButton" name="pushButton_3">
+      <item row="2" column="3">
+       <widget class="QPushButton" name="QPBFont2CPath">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>DirPath</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QPushButton" name="QPBImage2CPath">
+        <property name="text">
+         <string>DirPath</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" colspan="2">
+       <widget class="QLineEdit" name="QLEImage2CPath"/>
+      </item>
+      <item row="7" column="1">
+       <widget class="QPushButton" name="QPBAll2C">
         <property name="font">
          <font>
           <family>DejaVu Sans</family>
-          <pointsize>12</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
         <property name="text">
@@ -30,23 +53,33 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1" colspan="2">
-       <widget class="QLineEdit" name="lineEdit_3"/>
-      </item>
-      <item row="0" column="2">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+      <item row="6" column="1">
+       <widget class="QPushButton" name="QPBImage2C">
+        <property name="font">
+         <font>
+          <family>DejaVu Sans</family>
+          <pointsize>10</pointsize>
+         </font>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
+        <property name="text">
+         <string>Image to C</string>
         </property>
-       </spacer>
+       </widget>
       </item>
-      <item row="7" column="1">
+      <item row="3" column="1">
+       <widget class="QPushButton" name="QPBFont2C">
+        <property name="font">
+         <font>
+          <family>DejaVu Sans</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Font to C</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -59,37 +92,51 @@
         </property>
        </spacer>
       </item>
-      <item row="4" column="1">
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="font">
-         <font>
-          <family>DejaVu Sans</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Image to C</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="pushButton">
-        <property name="font">
-         <font>
-          <family>DejaVu Sans</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Font to C</string>
-        </property>
-       </widget>
+      <item row="2" column="1" colspan="2">
+       <widget class="QLineEdit" name="QLEFont2CPath"/>
       </item>
       <item row="1" column="1" colspan="2">
-       <widget class="QLineEdit" name="lineEdit"/>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
-      <item row="3" column="1" colspan="2">
-       <widget class="QLineEdit" name="lineEdit_2"/>
+      <item row="3" column="2">
+       <widget class="QPushButton" name="QPBFont2CSetting">
+        <property name="text">
+         <string>Setting</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" colspan="2">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="6" column="2">
+       <widget class="QPushButton" name="QPBImage2CSetting">
+        <property name="text">
+         <string>Setting</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -100,7 +147,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>482</width>
+     <width>643</width>
      <height>28</height>
     </rect>
    </property>

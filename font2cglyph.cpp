@@ -10,16 +10,16 @@
 Font2CGlyph::Font2CGlyph(QChar symbol, QFont font) :
 Symbol(symbol),Font(font),FontMetrics(font)
 {
-	qDebug()<<"====================";
+	//qDebug()<<"====================";
 	/*QPRINT_VAL(FontMetrics.ascent());
 	QPRINT_VAL(FontMetrics.descent() );*/
-	QPRINT_VAL(FontMetrics.height() );
+	//QPRINT_VAL(FontMetrics.height() );
 	//QPRINT_VAL(FontMetrics.leading() );
 	//QPRINT_VAL(FontMetrics.lineSpacing() );
-	QPRINT_VAL(FontMetrics.minLeftBearing() );
-	QPRINT_VAL(FontMetrics.minRightBearing() );
+	//QPRINT_VAL(FontMetrics.minLeftBearing() );
+	//QPRINT_VAL(FontMetrics.minRightBearing() );
 	//QPRINT_VAL(FontMetrics.maxWidth() );
-	QPRINT_VAL(FontMetrics.xHeight() );
+	//QPRINT_VAL(FontMetrics.xHeight() );
 	//QPRINT_VAL(FontMetrics.averageCharWidth() );
 
 
@@ -31,27 +31,27 @@ Symbol(symbol),Font(font),FontMetrics(font)
 	QPRINT_VAL(FontMetrics.strikeOutPos());
 	QPRINT_VAL(FontMetrics.lineWidth());*/
 }
-
+//------------------------------------------------------------------------------
 ushort Font2CGlyph::UnicodeSymbol() const {
 	return Symbol.unicode();
 }
-
+//------------------------------------------------------------------------------
 int Font2CGlyph::Width() const {		//X
 	return FontMetrics.width(Symbol);
 }
-
+//------------------------------------------------------------------------------
 int Font2CGlyph::Height() const {		//Y
 	return FontMetrics.height();
 }
-
+//------------------------------------------------------------------------------
 int Font2CGlyph::Ascent() const {
 	return FontMetrics.ascent();
 }
-
+//------------------------------------------------------------------------------
 int Font2CGlyph::Descent() const {
 	return FontMetrics.descent();
 }
-
+//------------------------------------------------------------------------------
 QImage Font2CGlyph::GetImageGlyph() const {
 
 	QPixmap map(FontMetrics.width(Symbol),FontMetrics.height());
@@ -64,7 +64,7 @@ QImage Font2CGlyph::GetImageGlyph() const {
 	painter.end();
 	return map.toImage();
 }
-
+//------------------------------------------------------------------------------
 int Font2CGlyph::XOffset() const {
 	int ret = 0;
 	const QImage img = GetImageGlyph();
@@ -82,7 +82,7 @@ int Font2CGlyph::XOffset() const {
 	}
 	return ret;
 }
-
+//------------------------------------------------------------------------------
 int Font2CGlyph::XSize() const {
 	int ret = Width() - XOffset();
 	const QImage img = GetImageGlyph();
@@ -100,7 +100,7 @@ int Font2CGlyph::XSize() const {
 	}
 	return ret;
 }
-
+//------------------------------------------------------------------------------
 int Font2CGlyph::YOffset() const {
 	int ret = 0;
 	const QImage img = GetImageGlyph();
@@ -118,7 +118,7 @@ int Font2CGlyph::YOffset() const {
 	}
 	return ret;
 }
-
+//------------------------------------------------------------------------------
 int Font2CGlyph::YSize() const {
 	int ret = Height() - YOffset();
 	const QImage img = GetImageGlyph();
@@ -136,7 +136,7 @@ int Font2CGlyph::YSize() const {
 	}
 	return ret;
 }
-
+//------------------------------------------------------------------------------
 void Font2CGlyph::TestSave() const
 {
 	const int xoff = XOffset();
@@ -160,3 +160,4 @@ void Font2CGlyph::TestSave() const
 	QImage img_save = map.toImage();
 	img_save.save(QString("%1").arg(Symbol.unicode()) + QString(".jpg"));
 }
+//------------------------------------------------------------------------------

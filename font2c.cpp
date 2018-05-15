@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
+#include <QDir>
 //------------------------------------------------------------------------------
 #define QPRINT_VAL(__val) {qDebug()<<#__val<<":"<<__val;}
 //------------------------------------------------------------------------------
@@ -11,44 +12,48 @@ Font2C::Font2C() : OptSize(true)
 
 }
 //------------------------------------------------------------------------------
+static const char TestChars [] =	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+									"abcdefghijklmnopqrstuvwxyzτ"
+									"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+									"абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+									"0123456789"
+									"(){}[]<>:;\"'.,!?\\|/@#$%^&*-+№="
+									"\n\r\t "
+									"λ▲▶▼◀";
+//------------------------------------------------------------------------------
 QString Font2C::TestSymbols()
 {
-	const QString TestENG = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	const QString Testeng = "abcdefghijklmnopqrstuvwxyzτ";
-
-	const QString TestRUS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-	const QString Testrus = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-
-	const QString TestNum = "0123456789";
-
-	const QString TestSpec = "(){}[]<>:;\"'.,!?\\|/@#$%^&*-+№=";
-	const QString TestSpec_n = "\n\r\t ";
-
-	const QString TestImg = "λ▲▶▼◀";
-
-	return	TestENG + Testeng +
-			TestRUS + Testrus +
-			TestSpec + TestSpec_n +
-	TestImg + TestNum;
+	return QString(TestChars);
 }
 //------------------------------------------------------------------------------
 void Font2C::SetSymbols(const QString &s)
 {
 	Symbols = s;
-	QPRINT_VAL(Symbols);
+	//QPRINT_VAL(Symbols);
 }
 //------------------------------------------------------------------------------
 void Font2C::Save2File(QString file,const QStringList &strlist)
 {
-	QFile f(DirPath + file);
+	QDir dir(DirPath);
+	if(!dir.exists()) {
+		if(!dir.mkpath(dir.absolutePath())) {
+			qDebug()<<"NOT mkpath";
+		}
+	}
+
+	qDebug()<<dir.absoluteFilePath(file);
+
+	QFile f(dir.absoluteFilePath(file));
 	if(!f.open(QIODevice::WriteOnly | QIODevice::Text)){
-		qDebug()<<"Not Open"<<file;
+		qDebug()<<"Not Save"<<dir.absoluteFilePath(file);
 		return;
 	}
+
 	QTextStream stream(&f);
 	foreach (QString line, strlist) {
 		stream<<line;
 	}
+
 	f.close();
 }
 //------------------------------------------------------------------------------
@@ -141,12 +146,7 @@ void Font2C::RangeIndex(QList<quint16> list)
 			}
 			last = list.at(i+z);
 		}
-		qDebug()<<"G:"<<i<<"\tC:"<<list.at(i)<<"\tCount:"<<z;
-		//rang<<new GenIndex(i,list.at(i),z);
-
-		//IndexGlyph.append(i);
-		//IndexChar.append(list.at(i));
-		//IndexCount.append(z);
+		//qDebug()<<"G:"<<i<<"\tC:"<<list.at(i)<<"\tCount:"<<z;
 		Index.append(Font2CIndex(i,list.at(i),z));
 
 		i = z + i - 1;
@@ -181,7 +181,7 @@ void Font2C::GlyphMapOptSize(QStringList &strlist,const Font2CGlyph &glyph)
 	int xsz = glyph.XSize();
 	int ysz = glyph.YSize();
 
-	glyph.TestSave();
+	//glyph.TestSave();
 
 	QImage img = glyph.GetImageGlyph();
 	QString strhex;
@@ -225,11 +225,23 @@ void Font2C::GlyphMapOptSize(QStringList &strlist,const Font2CGlyph &glyph)
 			}
 		}
 
-		qDebug()<<test_hex;
+		//qDebug()<<test_hex;
 		strhex += "\n";
 	}
 
 	strlist<<strhex;
+}
+//------------------------------------------------------------------------------
+void Font2C::SetFamily(QString family) {
+	FontFamily = family;
+}
+//------------------------------------------------------------------------------
+void Font2C::SetSize(qint32 size) {
+	FontSize = size;
+}
+//------------------------------------------------------------------------------
+void Font2C::SetDirPath(QString dirpath) {
+	DirPath = dirpath;
 }
 //------------------------------------------------------------------------------
 void Font2C::SaveSourceFile()
@@ -251,12 +263,11 @@ void Font2C::SaveSourceFile()
 	strlist<<QString("#include \"%1.h\"\n\n").arg(QString(FontName).toLower());
 	strlist<<"static const  FONT_IndexTypeDef FIndex[] = {\n";
 	for(int i=0;i<Index.size();i++) {
-		if(i==0)
+		if(i==0) {
 			strlist<<"\t{\n";
-		else
+		} else {
 			strlist<<"\t},{\n";
-		///ListIndex.at(i)->GenStructIndex(strlist);
-		///
+		}
 		strlist<<QString("\t\t.GlyphIndex\t= %1,\n").arg(Index.at(i).GetGlyph());
 		strlist<<QString("\t\t.CharIndex\t= %1,\n").arg(Index.at(i).GetChar());
 		strlist<<QString("\t\t.CountIndex\t= %1\n").arg(Index.at(i).GetCount());
@@ -323,7 +334,7 @@ void Font2C::SaveSourceFile()
 	FontName = FontFamily.remove(" ") + QString("%1").arg(FontSize);
 	Save2File(FontName.toLower() + ".c",strlist);
 
-	QPRINT_VAL(FontName);
+	//QPRINT_VAL(FontName);
 }
 //------------------------------------------------------------------------------
 void Font2C::SaveHenderFile()
@@ -336,6 +347,4 @@ void Font2C::SaveHenderFile()
 	strlist<<"#endif\n";
 	Save2File(QString(FontName).toLower() + ".h",strlist);
 }
-//------------------------------------------------------------------------------
-
 //------------------------------------------------------------------------------
